@@ -36,13 +36,16 @@ class User:
         self.name = name
         self.ID = ID
         self.borrowed_books = []
-        self.borrowing_privileges = True
+        self.borrowing_privileges = "active"
         
     def get_name(self):
         return self.name
     
     def get_id(self):
         return self.ID
+        
+    def borrow_book(self, book):
+        self.borrowed_books.append(book)
     
 
 class Genre:
