@@ -1,3 +1,5 @@
+
+
 class Book:
     def __init__(self, title, author, ISBN, publication_date):
         self.title = title
@@ -7,15 +9,23 @@ class Book:
         self.availability = True
 
     
-    def borrow_book(self):
+    def borrow_book(self, current_user):
         if self.availability:
             self.availability = False
-            print(f"{self.title} sueecessfully checked out!")
+            current_user.borrowed_books.append(self.title)
+
+            print(f"'{self.title}' successfully checked out by {current_user.name}!")
+
         else:
             print("This book is currently unavailable.")
     
-    def return_book(self):
+    def return_book(self, users):
         self.availability = True
+
+        for user in users:
+            if self.title in user.borrowed_books:
+                user.borrowed_books.remove(self.title)
+
         print(f"{self.title} returned successfully.")
 
     def show_status(self):
@@ -23,13 +33,7 @@ class Book:
             return "Available"
         else:
             return "Checked Out"
-
-
-class Author:
-    def __init__(self, name, biography):
-        self.name = name
-        self.biography = biography
-
+        
 
 class User:
     def __init__(self, name, ID):
@@ -43,9 +47,18 @@ class User:
     
     def get_id(self):
         return self.ID
+    
+    def get_borrowed_books(self):
+        return self.borrowed_books
         
     def borrow_book(self, book):
-        self.borrowed_books.append(book)
+        self.borrowed_books.append(book.title)
+
+
+class Author:
+    def __init__(self, name, biography):
+        self.name = name
+        self.biography = biography
     
 
 class Genre:
