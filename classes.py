@@ -14,7 +14,7 @@ class Book:
             self.availability = False
             current_user.borrowed_books.append(self.title)
 
-            print(f"'{self.title}' successfully checked out by {current_user.name}!")
+            print(f"\n'{self.title}' successfully checked out by {current_user.name}!")
 
         else:
             print("This book is currently unavailable.")
@@ -26,7 +26,7 @@ class Book:
             if self.title in user.borrowed_books:
                 user.borrowed_books.remove(self.title)
 
-        print(f"{self.title} returned successfully.")
+        print(f"'{self.title}' returned successfully.")
 
     def show_status(self):
         if self.availability:

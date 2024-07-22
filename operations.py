@@ -1,6 +1,7 @@
     
 from main  import *
 from classes import Book, User, Genre
+import re
 
 def book_operations(current_user, users):
 
@@ -10,32 +11,38 @@ def book_operations(current_user, users):
         title = input("What is the title? ")
         author = input("Who is the author? ")
         ISBN = input("Please provide the ISBN: ")
-        pub_date = input("Please provide the publication date (mm/dd/yyyy): ")
-        books[ISBN] = Book(title, author, ISBN, pub_date)
-        print(f"'{books[ISBN].title}' added successfully.")
+
+        while True:
+            pub_date = input("Please provide the publication date (mm/dd/yyyy): ")
+            if re.match("^(0[1-9]|1[0-2])/([0-2][0-9]|3[01])/\d{4}$", pub_date):
+                books[ISBN] = Book(title, author, ISBN, pub_date)
+                print(f"\n'{books[ISBN].title}' added successfully.")
+                break
+            else:
+                print("That is not a valid date format.  Please try again.")
     
     elif book_operation_input == "2":   #borrow book
-        borrow_selection = input("What is the title of the book that you would like to borrow? ")
+        borrow_selection = input("What is the title of the book that you would like to borrow? ").lower()
         for book in books:
-            if books[book].title == borrow_selection:
+            if books[book].title.lower() == borrow_selection:
                 books[book].borrow_book(current_user)
                 return
             
-        print("That book is not currently in the library.")
+        print("\nThat book is not currently in the library.")
     
 
     elif book_operation_input == "3":   #return book
-        return_selection = input("What is the name of the book that you would like to return? ")
+        return_selection = input("What is the name of the book that you would like to return? ").lower()
         for book in books:
-            if books[book].title == return_selection:
+            if books[book].title.lower() == return_selection:
                 books[book].return_book(users)
                 return
-        print("That book is not currently in the library.")
+        print("\nThat book is not currently in the library.")
 
     elif book_operation_input == "4":   #search for book
-        search_selection = input("What is the name of the book that you would like to search for? ")
+        search_selection = input("What is the name of the book that you would like to search for? ").lower()
         for book in books:
-            if books[book].title == search_selection:
+            if books[book].title.lower() == search_selection:
                 print(f"\n{books[book].title} found. \nStatus: {books[book].show_status()}")
                 return
         print("That book is not currently in the library.")                   
@@ -56,17 +63,17 @@ def user_operations(current_user, users):
         user_name_input = input("What is your name? ")
         user_id_input = input("What is the user ID? ")
         users.append(User(user_name_input, user_id_input))
-        print(f"User {user_name_input} created successfully!")
+        print(f"\nUser '{user_name_input}' created successfully!")
 
 
     elif user_operation_input == "2":   #view user details
-        view_user_input = input("Please enter the name of the user that you would like to view details on: ")
-        if view_user_input not in (user.name for user in users):
+        view_user_input = input("Please enter the name of the user that you would like to view details on: ").lower()
+        if view_user_input not in (user.name.lower() for user in users):
             print("That user was not found.")
         else:
             for user in users:
-                if view_user_input == user.name:
-                    print(f"User: {user.name} \nID: {user.ID} \nBooks Currently Borrowed: {user.borrowed_books} \nBorrowing Privileges: {user.borrowing_privileges}")
+                if view_user_input == user.name.lower():
+                    print(f"\nUser: {user.name} \nID: {user.ID} \nBooks Currently Borrowed: {user.borrowed_books} \nBorrowing Privileges: {user.borrowing_privileges}")
         
     elif user_operation_input == "3":   #view all users
         for user in users:
@@ -88,13 +95,13 @@ def author_operations(authors):
 
 
     elif author_operation_input == "2":   #view autor details
-        view_author_input = input("Please enter the name of the author that you would like to view details on: ")
-        if view_author_input not in (author.name for author in authors):
+        view_author_input = input("Please enter the name of the author that you would like to view details on: ").lower()
+        if view_author_input not in (author.name.lower() for author in authors):
             print("That author was not found.")
         else:
             for author in authors:
-                if view_author_input == author.name:
-                    print(f"Author: {author.name} \nBiography: {author.biography} \n")
+                if view_author_input == author.name.lower():
+                    print(f"\nAuthor: {author.name} \nBiography: {author.biography} \n")
 
     elif author_operation_input == "3":   #view all users
         for author in authors:
@@ -118,12 +125,12 @@ def genre_operations(genres):
 
 
     elif genre_operation_input == "2":   #view genre details
-        view_genre_input = input("Please enter the name of the genre that you would like to view details on: ")
-        if view_genre_input not in (genre.name for genre in genres):
+        view_genre_input = input("Please enter the name of the genre that you would like to view details on: ").lower()
+        if view_genre_input not in (genre.name.lower() for genre in genres):
             print("That genre was not found.")
         else:
             for genre in genres:
-                if view_genre_input == genre.name:
+                if view_genre_input == genre.name.lower():
                     print(f"\nGenre: {genre.name} \nDescritpion: {genre.description} \nCategory: {genre.category}")
 
     elif genre_operation_input == "3":   #view all genres
@@ -135,16 +142,17 @@ def genre_operations(genres):
 
     
 def change_user(current_user, users):
-    change_user_input = input("What is the name of the user that you would like to change to? ")
-    if change_user_input not in (user.name for user in users):
+    change_user_input = input("What is the name of the user that you would like to change to? ").lower()
+
+    if change_user_input not in (user.name.lower() for user in users):
         print("That user was not found.")
         return None
 
     else:
         for user in users:
-            if change_user_input == user.name:
+            if change_user_input == user.name.lower():
                 current_user = user
-                print(f"Current user updated to '{user.name}'.")
+                print(f"\nCurrent user updated to '{user.name}'.")
                 return user
     
 
