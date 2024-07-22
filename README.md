@@ -21,4 +21,17 @@ There are also options to 'create new' and 'learn about' existing Genres and Aut
 ## How to set up:
 - Open a terminal
 
-- Visit 
+- Visit https://github.com/rpeloso21/Mod-4-Project-Library-Management-System to find the repository
+
+- Clone the repository
+
+- cd into the project directory 'Mod 4 Project Library Management System'.
+
+- compile the code.
+
+##  CLI Info
+- after the original log in with your admin ID ('111') you will see a set of menus.  You will use the numbers associated with the selection you want for navigation purposes.
+
+- There are submenus under each menu which require a numeric input as well.
+
+- Remember that when performing book operations you are doing so as the original admin user ('Tom Sawyer', '111') until you create an additional user and change to that user.
